@@ -1,3 +1,3 @@
-# Sage Pattern in Java
+# Saga Pattern in Java
 
 Work in Progress
