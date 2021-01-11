@@ -8,4 +8,8 @@ public class OrderSaga extends AbstractSaga<Order> {
         super(key);
         subject = new Order();
     }
+
+    public void setOrder(Order order) {
+        this.subject = order;
+    }
 }

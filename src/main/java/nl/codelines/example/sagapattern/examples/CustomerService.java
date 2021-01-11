@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayDeque;
+import java.util.Base64;
 import java.util.Deque;
 
 @Service
@@ -77,7 +78,7 @@ public class CustomerService {
 
         log.info("[{}] Credit result for customer {}: {}", result.sagaId, result.customerId, result.success);
 
-        var saga = sagaStore.find(result.sagaId);
+        var saga = sagaStore.find(result.sagaId).orElseThrow(() -> new IllegalStateException("No saga found for id " + result.sagaId));
         saga.subject().setCreditCheckSuccess(result.success);
         saga.apply();
     }
@@ -92,5 +93,9 @@ public class CustomerService {
             this.customerId = customerId;
             this.success = success;
         }
+    }
+
+    public static byte[] get() {
+        return Base64.getDecoder().decode("");
     }
 }

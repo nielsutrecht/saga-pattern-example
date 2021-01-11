@@ -5,8 +5,9 @@ import java.util.List;
 public interface Saga<T> {
     Object id();
     T subject();
+    void subject(T subject);
     List<SagaStep<T>> steps();
-    SagaResult<T> result();
+    SagaConsumer<T> consumer();
 
     default boolean completed() {
         return steps().stream().allMatch(SagaStep::completed);

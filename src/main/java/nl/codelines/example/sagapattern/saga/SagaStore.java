@@ -1,7 +1,9 @@
 package nl.codelines.example.sagapattern.saga;
 
+import java.util.Optional;
+
 public interface SagaStore<T> {
-    Saga<T> find(Object id);
+    Optional<Saga<T>> find(Object id);
 
     void store(Saga<T> saga);
 

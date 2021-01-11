@@ -1,16 +1,19 @@
 package nl.codelines.example.sagapattern.order;
 
-import nl.codelines.example.sagapattern.saga.*;
+import nl.codelines.example.sagapattern.saga.Saga;
+import nl.codelines.example.sagapattern.saga.SagaConsumer;
+import nl.codelines.example.sagapattern.saga.SagaFactory;
+import nl.codelines.example.sagapattern.saga.SagaStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Random;
 
-@RestController
-public class OrderSimulator implements SagaResult<Order> {
+@Component
+public class OrderSimulator implements SagaConsumer<Order> {
     private final Logger log = LoggerFactory.getLogger(OrderSimulator.class);
     private final SagaFactory<Order> sagaFactory;
     private final SagaStore<Order> sagaStore;

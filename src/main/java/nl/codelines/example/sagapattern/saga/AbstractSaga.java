@@ -10,7 +10,7 @@ public abstract class AbstractSaga<T> implements Saga<T>  {
     protected T subject;
     protected Object id;
     protected List<SagaStep<T>> steps = new ArrayList<>();
-    protected SagaResult<T> result;
+    protected SagaConsumer<T> consumer;
 
     public AbstractSaga(Object id) {
         if(id == null) {
@@ -23,8 +23,8 @@ public abstract class AbstractSaga<T> implements Saga<T>  {
     @Override
     public void apply(T t) {
         if (completed()) {
-            if(result != null) {
-                result.success(this);
+            if(consumer != null) {
+                consumer.success(this);
             }
             return;
         }
@@ -35,8 +35,8 @@ public abstract class AbstractSaga<T> implements Saga<T>  {
             step.apply(t);
         } catch (Exception e) {
             compensate();
-            if(result != null) {
-                result.failure(this, e);
+            if(consumer != null) {
+                consumer.failure(this, e);
             }
         }
     }
@@ -52,12 +52,17 @@ public abstract class AbstractSaga<T> implements Saga<T>  {
     }
 
     @Override
+    public void subject(T subject) {
+        this.subject = subject;
+    }
+
+    @Override
     public List<SagaStep<T>> steps() {
         return steps;
     }
 
     @Override
-    public SagaResult<T> result() {
-        return result;
+    public SagaConsumer<T> consumer() {
+        return consumer;
     }
 }
